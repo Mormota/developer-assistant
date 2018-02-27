@@ -1,6 +1,6 @@
 
 
-const project = (label, id, lastModified, size, servertoggle, click, liveserver) => {
+const project = (label, id, lastModified, size, servertoggle, click, remove, liveserver) => {
   let server
   let serverStatus = liveserver
   if(!liveserver || liveserver === null){
@@ -39,6 +39,11 @@ const project = (label, id, lastModified, size, servertoggle, click, liveserver)
       {
         label: `Last modified: ${lastModified}`,
         enabled: false
+      },
+      {type: 'separator'},
+      {
+        label: 'Remove project',
+        click: () => remove(id)
       }
     ] 
   }

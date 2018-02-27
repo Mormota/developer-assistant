@@ -35,6 +35,8 @@ app.on('ready', () => {
 
 	storedProjects = store.get('projects')
 
+	console.log(storedProjects)
+
 	mainWindow = new BrowserWindow({});
 
 	mainWindow.loadURL(url.format({
@@ -51,27 +53,25 @@ app.on('ready', () => {
       mainWindow.hide();
     }
   });
-	
-	
+
+
+	ipcMain.on('ready', () => {
+		mainWindow.webContents.send('projects', storedProjects)
+	})	
 
 	const updateMenus = (projects) => {
-
 		let _template = template(mainWindow, actions((_projects) => updateMenus(_projects)), projects)
-		let _traytemplate = traytemplate(mainWindow)
-
+		let _traytemplate = traytemplate(mainWindow,actions((_projects) => updateMenus(_projects)), projects)
 		const contextMenu = Menu.buildFromTemplate(_traytemplate)
-	  tray = new Tray('./Statics/Files/Images/TrayIcon/TrayIcon.png')
+	  let tray = new Tray('./Statics/Files/Images/TrayIcon/TrayIcon.png')
 	  tray.setToolTip(app.getName())
 	  tray.setContextMenu(contextMenu)
 	  tray.setTitle('Toucan')
-
 		const menu = Menu.buildFromTemplate(_template)
 		Menu.setApplicationMenu(menu)
+		mainWindow.webContents.send('projects', projects)
 	}
-	
 	updateMenus(storedProjects)
-  
-
 })
 
 app.on('activate', () => {

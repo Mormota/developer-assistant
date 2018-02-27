@@ -117,8 +117,11 @@ const template = (window, actions, projects) => {
         projects[i].name, 
         projects[i].id, 
         projects[i].modified,
-        (projects[i].size / 1024 ).toFixed(2) + 'Kb', (id) => liveServer.start(0, 1), (id) => liveServer.stop(0)))
-  }
+        (projects[i].size / 1024 ).toFixed(2) + 'Kb',
+        (id) => liveServer.start(0, 1), 
+        (id) => liveServer.stop(0),
+        (id) => actions.removeProject(id)
+        ))}
 
 
   if (process.platform === 'darwin') {

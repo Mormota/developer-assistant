@@ -23339,18 +23339,37 @@ function (_Component) {
   _inherits(Template, _Component);
 
   function Template() {
+    var _this;
+
     _classCallCheck(this, Template);
 
-    return _possibleConstructorReturn(this, (Template.__proto__ || Object.getPrototypeOf(Template)).apply(this, arguments));
+    _this = _possibleConstructorReturn(this, (Template.__proto__ || Object.getPrototypeOf(Template)).call(this));
+    _this.state = {
+      projects: []
+    };
+    return _this;
   }
 
   _createClass(Template, [{
+    key: "componentWillMount",
+    value: function componentWillMount() {
+      _electron.ipcRenderer.send('ready');
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var history = this.props.history;
 
       _electron.ipcRenderer.on('router', function (e, route) {
         history.push('/körte');
+      });
+
+      _electron.ipcRenderer.on('projects', function (e, projects) {
+        _this2.setState({
+          projects: projects
+        });
       });
 
       return _react.default.createElement("div", {
@@ -23361,7 +23380,9 @@ function (_Component) {
         className: "side-header"
       }), _react.default.createElement("div", {
         className: "side-nav"
-      })), _react.default.createElement("div", {
+      }, this.state.projects.map(function (project) {
+        return _react.default.createElement("span", null, project.name);
+      }))), _react.default.createElement("div", {
         className: "main"
       }, _react.default.createElement("div", {
         className: "main-header"

@@ -36,6 +36,12 @@ const actions = (callback) => {
 
 			})
 		},
+		removeProject: (id) => {
+			let projects = store.get('projects')
+			projects.splice(projects.indexOf((project) => project.id === id), 1)
+			store.set('projects', projects)
+			callback(projects)
+		}
 	}
 }
 
