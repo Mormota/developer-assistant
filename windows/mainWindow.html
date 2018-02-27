@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Developer Tool</title>
+	<title>Toucan Developer Assistant</title>
 	<style>
 		body{
 			width: 100vw;
@@ -16,6 +16,7 @@
 			line-height: 100vh;
 		}
 	</style>
+	<link rel="stylesheet" href="./mainWindow/css/main.css">
 </head>
 <body>
 	<div id="root">
@@ -25,7 +26,10 @@
 	</div>
 	<script type="text/javascript" src="./mainWindow/static/index.js"></script>
 	<script>
-		
+		const { ipcRenderer } = require('electron')
+		// ipcRenderer.on('router', (e, route) => {
+		// 	console.log('alma')
+		// })
 	</script>
 </body>
 </html>

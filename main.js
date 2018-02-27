@@ -1,19 +1,19 @@
-console.time('init')
-
-const electron = require('electron');
+const { app, BrowserWindow, Menu, Tray, ipcMain } = require('electron');
+const express = require('express')();
 const url = require('url');
 const path = require('path');
 
 const debug = require('./application/debug');
 
+const router = require('./helpers/router')
 
-const { app, BrowserWindow, Menu, Tray } = electron;
-
-const template = require('./application/menu');
-const traytemplate = require('./application/traymenu');
+let template = require('./application/menu');
+let traytemplate = require('./application/traymenu');
 
 let mainWindow;
 let willQuitApp = false;
+
+
 
 app.on('ready', () => {
 	mainWindow = new BrowserWindow({});
@@ -32,24 +32,30 @@ app.on('ready', () => {
     }
   });
 
+
 	
+	template = template(mainWindow)
+	traytemplate = traytemplate(mainWindow)
 	
   const contextMenu = Menu.buildFromTemplate(traytemplate)
-  tray = new Tray('./IconTemplate.png')
+  tray = new Tray('./Statics/Files/Images/TrayIcon/TrayIcon.png')
   tray.setToolTip(app.getName())
   tray.setContextMenu(contextMenu)
+  tray.setTitle('Toucan')
+
 
 	const menu = Menu.buildFromTemplate(template)
 	Menu.setApplicationMenu(menu)
 
 })
 
+
 app.on('activate', () => {
-	mainWindow.show()
+	mainWindow.show();
 });
 
 
-app.on('before-quit', () => willQuitApp = true);
 
+app.on('before-quit', () => willQuitApp = true);
 
 

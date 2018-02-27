@@ -1,0 +1,39 @@
+$main-color: lighten(rgb(87, 98, 111), 15%)
+$side-color: darken($main-color, 10%)
+$side-header-color: darken($main-color, 15%)
+$main-header-color: darken($main-color, 5%)
+
+$main-font-color: lighten(#000, 5%)
+
+$main-header-height: 70px
+$side-header-height: 100px
+
+$main-shadow: 0 1px 0 rgba(0,0,0,.2), 0 2px 0 rgba(0,0,0,.06)
+
+div.main-window
+	background-color: pink
+	height: 100vh
+	width: 100vw
+	div.side
+		background-color: $side-color
+		width: 20%
+		min-width: 200px
+		float: left
+		height: 100vh
+		-webkit-box-shadow: 0 1px 0 rgba(0,0,0,.2), 0 2px 0 rgba(0,0,0,.06)
+		box-shadow: $main-shadow
+		div.side-header
+			height: $side-header-height
+			background-color: $side-header-color
+			box-shadow: $main-shadow
+
+	div.main
+		background-color: $main-color
+		height: 100vh
+		color: $main-font-color
+		div.main-header
+			height: $main-header-height
+			background-color: $main-header-color
+			// box-shadow: 0 0 6px 6px rgba(0,0,0,.1)
+			box-shadow: $main-shadow
+		div.main-main

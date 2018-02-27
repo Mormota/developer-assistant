@@ -5,7 +5,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
   target: 'electron',
-  entry: path.resolve(__dirname, 'windows', 'mainWindow', 'mainWindow.js'),
+  entry: path.resolve(__dirname, 'Components', 'index.js'),
   output: {
     filename: 'index.js',
     path: path.resolve(__dirname, 'windows', 'mainWindow', 'static'),
