@@ -1,45 +1,33 @@
 const electron = require('electron');
-const { app, BrowserWindow, Menu } = electron;
+const { app, BrowserWindow, Menu, dialog } = electron;
+const Store = require('electron-store');
+const store = new Store();
 
 const project = require('../helpers/project')
 const webpackProject = require('../helpers/webpackProject')
 
+const liveServer = require('./liveServer')
+
 const router = require('../helpers/router')
 
-const template = (window) => {
+
+const template = (window, actions, projects) => {
 
   const menu = [
     {
-      label: 'Edit',
-      submenu: [
-        {role: 'undo'},
-        {role: 'redo'},
-        {type: 'separator'},
-        {role: 'cut'},
-        {role: 'copy'},
-        {role: 'paste'},
-        {role: 'pasteandmatchstyle'},
-        {role: 'delete'},
-        {role: 'selectall'}
-      ]
-    },
-    {
       label: 'Projects',
       submenu: [
-        project('Test Project', 001, '2017-10-02', '1.000Kb', (id) => {console.log('Server toggle')}, (id) => router(window, '/körte')),
         {type: 'separator'},
         {
           label: 'Add directory to project',
           accelerator: 'CommandOrControl+Shift+A',
-        },
-        {
-          label: 'Open Project',
-          accelerator: 'CommandOrControl+Shift+O',
+          click: () => actions.addDirToProjects()
         },
         {type: 'separator'},
         {
           label: 'Manage Projects',
-          accelerator: 'CommandOrControl+Shift+M'
+          accelerator: 'CommandOrControl+Shift+M',
+          click: () => console.log(store.get('unicorn'))
         },
       ]
     },
@@ -122,6 +110,17 @@ const template = (window) => {
     }
   ]
 
+  let projectsMenu = []
+  for (var i = 0; i < projects.length; i++) {
+    menu[0].submenu.unshift(
+      project(
+        projects[i].name, 
+        projects[i].id, 
+        projects[i].modified,
+        (projects[i].size / 1024 ).toFixed(2) + 'Kb', (id) => liveServer.start(0, 1), (id) => liveServer.stop(0)))
+  }
+
+
   if (process.platform === 'darwin') {
     menu.unshift({
       label: app.getName(),
@@ -136,18 +135,6 @@ const template = (window) => {
         {role: 'quit'}
       ]
     })
-
-    // Edit menu
-    menu[1].submenu.push(
-      {type: 'separator'},
-      {
-        label: 'Speech',
-        submenu: [
-          {role: 'startspeaking'},
-          {role: 'stopspeaking'}
-        ]
-      }
-    )
 
     // Window menu
     menu[5].submenu = [
