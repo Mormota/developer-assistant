@@ -23338,12 +23338,12 @@ var Template =
 function (_Component) {
   _inherits(Template, _Component);
 
-  function Template() {
+  function Template(props) {
     var _this;
 
     _classCallCheck(this, Template);
 
-    _this = _possibleConstructorReturn(this, (Template.__proto__ || Object.getPrototypeOf(Template)).call(this));
+    _this = _possibleConstructorReturn(this, (Template.__proto__ || Object.getPrototypeOf(Template)).call(this, props));
     _this.state = {
       projects: []
     };
@@ -23351,25 +23351,14 @@ function (_Component) {
   }
 
   _createClass(Template, [{
-    key: "componentWillMount",
-    value: function componentWillMount() {
-      _electron.ipcRenderer.send('ready');
-    }
-  }, {
     key: "render",
     value: function render() {
       var _this2 = this;
 
-      var history = this.props.history;
+      var projects = this.state.projects;
 
       _electron.ipcRenderer.on('router', function (e, route) {
-        history.push('/körte');
-      });
-
-      _electron.ipcRenderer.on('projects', function (e, projects) {
-        _this2.setState({
-          projects: projects
-        });
+        _this2.props.history.push(route);
       });
 
       return _react.default.createElement("div", {
@@ -23380,7 +23369,7 @@ function (_Component) {
         className: "side-header"
       }), _react.default.createElement("div", {
         className: "side-nav"
-      }, this.state.projects.map(function (project) {
+      }, projects.map(function (project) {
         return _react.default.createElement("span", null, project.name);
       }))), _react.default.createElement("div", {
         className: "main"
@@ -23389,6 +23378,19 @@ function (_Component) {
       }, this.props.header), _react.default.createElement("div", {
         className: "main-main"
       }, this.props.children)));
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this3 = this;
+
+      _electron.ipcRenderer.send('ready');
+
+      _electron.ipcRenderer.on('projects', function (e, projects) {
+        _this3.setState({
+          projects: projects
+        });
+      });
     }
   }]);
 

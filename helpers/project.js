@@ -1,8 +1,7 @@
-
-
 const project = (label, id, lastModified, size, servertoggle, click, remove, liveserver) => {
   let server
   let serverStatus = liveserver
+  
   if(!liveserver || liveserver === null){
     server = 'Start live server'
     serverStatus = null
@@ -10,6 +9,7 @@ const project = (label, id, lastModified, size, servertoggle, click, remove, liv
     server = `Server running on port ${liveserver}`
     serverStatus = liveserver
   }
+
   let template = {
     label: label,
     click: () => click(id),
@@ -47,7 +47,6 @@ const project = (label, id, lastModified, size, servertoggle, click, remove, liv
       }
     ] 
   }
-
 
   return template
 }

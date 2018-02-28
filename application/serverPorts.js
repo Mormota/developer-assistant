@@ -50,6 +50,6 @@ const serverPorts = [
 	4048,
 	4049,
 	4050,
-]
+];
 
 module.exports = serverPorts

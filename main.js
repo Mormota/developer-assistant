@@ -2,9 +2,10 @@ const { app, BrowserWindow, Menu, Tray, ipcMain, dialog } = require('electron');
 const express = require('express')();
 const url = require('url');
 const path = require('path');
-const Store = require('electron-store')
-const store = new Store()
-const router = require('./helpers/router')
+const Store = require('electron-store');
+const store = new Store();
+
+const router = require('./helpers/router');
 
 const debug = require('./application/debug');
 let template = require('./application/menu');
@@ -15,7 +16,26 @@ let mainWindow;
 let addLoaderWindow;
 let willQuitApp = false;
 
-store.set('unicorn', {unicorn: '🦄'})
+const updateProjects = (projects, window) => {
+	let _template = template(
+		window, 
+		actions((_projects) => updateProjects(_projects)), 
+		projects);
+	const menu = Menu.buildFromTemplate(_template);
+	Menu.setApplicationMenu(menu);
+
+	let _traytemplate = traytemplate(
+		window,
+		actions((_projects) => updateProjects(_projects)),
+		projects);
+	const contextMenu = Menu.buildFromTemplate(_traytemplate);
+  let tray = new Tray('./Statics/Files/Images/TrayIcon/TrayIcon.png');
+  // tray.setToolTip(app.getName())
+  tray.setContextMenu(contextMenu);
+  tray.setTitle('Toucan');
+	
+	window.webContents.send('projects', projects);
+}
 
 const createWindow = (props, window) => {
 	window = new BrowserWindow(props);
@@ -24,18 +44,11 @@ const createWindow = (props, window) => {
 		pathname: path.join(__dirname, 'windows', 'mainWindow.html'),
 		protocol: 'file:',
 		slashes: true
-	}))
-}
-
-
+	}));
+};
 
 app.on('ready', () => {
-
-	let storedProjects
-
-	storedProjects = store.get('projects')
-
-	console.log(storedProjects)
+	let storedProjects = store.get('projects') ? store.get('projects') : [];
 
 	mainWindow = new BrowserWindow({});
 
@@ -43,7 +56,7 @@ app.on('ready', () => {
 		pathname: path.join(__dirname, 'windows', 'mainWindow.html'),
 		protocol: 'file:',
 		slashes: true
-	}))
+	}));
 
 	mainWindow.on('close', (e) => {
     if (willQuitApp) {
@@ -54,24 +67,11 @@ app.on('ready', () => {
     }
   });
 
-
 	ipcMain.on('ready', () => {
-		mainWindow.webContents.send('projects', storedProjects)
-	})	
+		mainWindow.webContents.send('projects', storedProjects ? storedProjects : []);
+	});
 
-	const updateMenus = (projects) => {
-		let _template = template(mainWindow, actions((_projects) => updateMenus(_projects)), projects)
-		let _traytemplate = traytemplate(mainWindow,actions((_projects) => updateMenus(_projects)), projects)
-		const contextMenu = Menu.buildFromTemplate(_traytemplate)
-	  let tray = new Tray('./Statics/Files/Images/TrayIcon/TrayIcon.png')
-	  tray.setToolTip(app.getName())
-	  tray.setContextMenu(contextMenu)
-	  tray.setTitle('Toucan')
-		const menu = Menu.buildFromTemplate(_template)
-		Menu.setApplicationMenu(menu)
-		mainWindow.webContents.send('projects', projects)
-	}
-	updateMenus(storedProjects)
+	updateProjects(storedProjects, mainWindow);
 })
 
 app.on('activate', () => {
