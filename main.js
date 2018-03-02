@@ -50,7 +50,12 @@ const createWindow = (props, window) => {
 app.on('ready', () => {
 	let storedProjects = store.get('projects') ? store.get('projects') : [];
 
-	mainWindow = new BrowserWindow({});
+	mainWindow = new BrowserWindow({
+		'minHeight': 600,
+  	'minWidth': 900,
+  	'height': 600,
+  	'width': 900,
+	});
 
 	mainWindow.loadURL(url.format({
 		pathname: path.join(__dirname, 'windows', 'mainWindow.html'),

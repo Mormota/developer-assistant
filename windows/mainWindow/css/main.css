@@ -1,23 +1,65 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500);html * {
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300; }
+
 div.main-window {
-  background-color: pink;
   height: 100vh;
-  width: 100vw; }
-  div.main-window div.side {
-    background-color: #626f7d;
-    width: 20%;
-    min-width: 200px;
-    float: left;
-    height: 100vh;
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 2px 0 rgba(0, 0, 0, 0.06); }
-    div.main-window div.side div.side-header {
-      height: 100px;
-      background-color: #57626f;
-      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 2px 0 rgba(0, 0, 0, 0.06); }
-  div.main-window div.main {
-    background-color: #7b8898;
-    height: 100vh;
-    color: #0d0d0d; }
-    div.main-window div.main div.main-header {
-      height: 70px;
-      background-color: #6d7b8c;
-      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 2px 0 rgba(0, 0, 0, 0.06); }
+  width: -webkit-fill-available; }
+  div.main-window div.header {
+    background-color: #2a2a2a;
+    color: #f2f2f2;
+    height: 70px;
+    box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2), 0 0 1px 1px rgba(0, 0, 0, 0.6);
+    border-bottom: 1px solid #7b7b7b; }
+  div.main-window div.main-container {
+    height: -webkit-calc(100vh - 70px);
+    height: calc(100vh - 70px); }
+    div.main-window div.main-container div.side {
+      color: #f2f2f2;
+      background-color: #2a2a2a;
+      width: 250px;
+      float: left;
+      height: -webkit-calc(100vh - 70px);
+      height: calc(100vh - 70px);
+      border-right: 1px solid #7b7b7b; }
+      div.main-window div.main-container div.side div.project {
+        position: relative;
+        height: 40px;
+        line-height: 40px;
+        font-size: 14px;
+        color: #777;
+        padding-left: 24px;
+        cursor: pointer; }
+        div.main-window div.main-container div.side div.project:hover {
+          background-color: rgba(0, 0, 0, 0.1); }
+        div.main-window div.main-container div.side div.project:after {
+          display: block;
+          content: ' ';
+          position: absolute;
+          width: 7px;
+          height: 7px;
+          border-radius: 1px;
+          background-color: pink;
+          left: 12px;
+          top: 50%;
+          -webkit-transform: translate(-50%, -50%);
+              -ms-transform: translate(-50%, -50%);
+                  transform: translate(-50%, -50%); }
+        div.main-window div.main-container div.side div.project.selected {
+          background-color: #1D1D1D; }
+          div.main-window div.main-container div.side div.project.selected:before {
+            display: block;
+            content: ' ';
+            position: absolute;
+            width: 1px;
+            height: 40px;
+            right: -1px;
+            top: 0;
+            background-color: #3DB9E7; }
+    div.main-window div.main-container div.main {
+      background-color: #242424;
+      color: #f2f2f2;
+      height: -webkit-calc(100vh - 70px);
+      height: calc(100vh - 70px); }

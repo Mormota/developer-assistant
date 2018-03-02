@@ -1,39 +1,82 @@
-$main-color: lighten(rgb(87, 98, 111), 15%)
-$side-color: darken($main-color, 10%)
-$side-header-color: darken($main-color, 15%)
-$main-header-color: darken($main-color, 5%)
+$header-bgcolor: #2a2a2a
+$header-color: darken(white, 5%)
+$header-height: 70px
 
-$main-font-color: lighten(#000, 5%)
+$border-color: #7b7b7b
 
-$main-header-height: 70px
-$side-header-height: 100px
+$main-height: calc(100vh - #{$header-height})
 
-$main-shadow: 0 1px 0 rgba(0,0,0,.2), 0 2px 0 rgba(0,0,0,.06)
+$side-bgcolor: #2a2a2a
+$side-color: darken(white, 5%)
+
+$main-bgcolor: #242424
+$main-color: darken(white, 5%)
+
+$project-font-color: #777
+
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500')
+
+
+html *
+  margin: 0
+  box-sizing: border-box
+  font-family: 'Roboto', sans-serif
+  font-weight: 300
+
+div
 
 div.main-window
-	background-color: pink
 	height: 100vh
-	width: 100vw
-	div.side
-		background-color: $side-color
-		width: 20%
-		min-width: 200px
-		float: left
-		height: 100vh
-		-webkit-box-shadow: 0 1px 0 rgba(0,0,0,.2), 0 2px 0 rgba(0,0,0,.06)
-		box-shadow: $main-shadow
-		div.side-header
-			height: $side-header-height
-			background-color: $side-header-color
-			box-shadow: $main-shadow
-
-	div.main
-		background-color: $main-color
-		height: 100vh
-		color: $main-font-color
-		div.main-header
-			height: $main-header-height
-			background-color: $main-header-color
-			// box-shadow: 0 0 6px 6px rgba(0,0,0,.1)
-			box-shadow: $main-shadow
-		div.main-main
+	width: -webkit-fill-available
+	div.header
+		background-color: $header-bgcolor
+		color: $header-color
+		height: $header-height
+		box-shadow: 0 0 3px 3px rgba(0,0,0,.2), 0 0 1px 1px rgba(0,0,0,.6)
+		border-bottom: 1px solid $border-color
+	div.main-container
+		height: $main-height
+		div.side
+			color: $side-color
+			background-color: $side-bgcolor
+			width: 250px
+			float: left
+			height: $main-height
+			border-right: 1px solid $border-color
+			div.project
+				position: relative
+				height: 40px
+				line-height: 40px
+				font-size: 14px
+				color: $project-font-color
+				padding-left: 24px
+				cursor: pointer
+				&:hover
+					background-color: rgba(0,0,0,.1)
+				&:after
+					display: block
+					content: ' '
+					position: absolute
+					width: 7px
+					height: 7px
+					border-radius: 1px
+					background-color: pink
+					left: 12px
+					top: 50%
+					transform: translate(-50%, -50%)
+				&.selected
+					background-color: #1D1D1D
+					&:before
+						display: block
+						content: ' '
+						position: absolute
+						width: 1px
+						height: 40px
+						right: -1px
+						top: 0
+						background-color: #3DB9E7
+		div.main
+			background-color: $main-bgcolor
+			color: $main-color
+			height: $main-height

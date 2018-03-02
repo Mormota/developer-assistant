@@ -21,21 +21,20 @@ export default class Template extends Component {
 
 		return (
 			<div className="main-window">
-				<div className="side">
-					<div className="side-header"></div>
-					<div className="side-nav">
+				<div className="header">
+					Header
+				</div>
+				<div className="main-container">
+					<div className="side">
 						{
-							projects.map(project => <span>{project.name}</span>)
+							this.state.projects.map(project => (
+									<div className="project" key={project.id}>
+										<span className="label">{project.name}</span>
+									</div>
+								))
 						}
 					</div>
-				</div>
-				<div className="main">
-					<div className="main-header">
-						{this.props.header}
-					</div>
-					<div className="main-main">
-						{this.props.children}
-					</div>
+					<div className="main">Main</div>
 				</div>
 			</div>
 		);
