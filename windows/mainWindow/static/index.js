@@ -23456,24 +23456,33 @@ function (_Component) {
   _inherits(ProjectItem, _Component);
 
   function ProjectItem() {
-    var _ref;
-
-    var _temp, _this;
+    var _this;
 
     _classCallCheck(this, ProjectItem);
 
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _possibleConstructorReturn(_this, (_temp = _this = _possibleConstructorReturn(this, (_ref = ProjectItem.__proto__ || Object.getPrototypeOf(ProjectItem)).call.apply(_ref, [this].concat(args))), Object.defineProperty(_assertThisInitialized(_this), "handleSelect", {
+    _this = _possibleConstructorReturn(this, (ProjectItem.__proto__ || Object.getPrototypeOf(ProjectItem)).call(this));
+    Object.defineProperty(_assertThisInitialized(_this), "handleSelect", {
       configurable: true,
       enumerable: true,
       writable: true,
       value: function value() {
         return _this.props.select(_this.props.number);
       }
-    }), _temp));
+    });
+    Object.defineProperty(_assertThisInitialized(_this), "handleToolbar", {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      value: function value() {
+        return _this.setState({
+          toolbar: !_this.state.toolbar
+        });
+      }
+    });
+    _this.state = {
+      toolbar: false
+    };
+    return _this;
   }
 
   _createClass(ProjectItem, [{
@@ -23489,19 +23498,32 @@ function (_Component) {
         className: "label"
       }, project.name), this.props.current && _react.default.createElement("div", {
         className: "ProjectSide"
-      }, _react.default.createElement("div", {
+      }, _react.default.createElement("span", {
+        className: "indicator"
+      }), _react.default.createElement("div", {
         className: "webpack"
       }, _react.default.createElement("img", {
         src: '../Statics/Files/Images/webpack-icon.svg'
       })), _react.default.createElement("div", {
         className: "webpack"
       }, _react.default.createElement("div", {
-        className: "dots"
+        className: "dots",
+        onClick: this.handleToolbar
       }, _react.default.createElement("img", {
         src: '../Statics/Files/Images/dots.svg'
-      }))), _react.default.createElement("div", {
+      }))), this.state.toolbar && _react.default.createElement("div", {
         className: "toolbarHandler"
-      })));
+      }, _react.default.createElement("img", {
+        src: '../Statics/Files/Images/ToolbarContainer.svg',
+        alt: ""
+      }), _react.default.createElement("div", {
+        className: "toolbarContent"
+      }, _react.default.createElement("div", null, "Start webpack"), _react.default.createElement("img", {
+        id: "highlight",
+        className: "highlight",
+        src: '../Statics/Files/Images/ToolbarHighlight.svg',
+        alt: ""
+      }), _react.default.createElement("div", null, "Start Node.js Server"), _react.default.createElement("div", null, "Open npm config"), _react.default.createElement("div", null, "Bug tracker"), _react.default.createElement("div", null, "Setup Liveserver"), _react.default.createElement("div", null, "Check for errors"), _react.default.createElement("div", null, "Analize project"), _react.default.createElement("div", null, "Remove project")))));
     }
   }]);
 

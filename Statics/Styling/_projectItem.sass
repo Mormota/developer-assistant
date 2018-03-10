@@ -22,7 +22,7 @@ div.ProjectItem
 		background-color: #1D1D1D
 		color: #AAA
 		cursor: default
-		&::after
+		span.indicator
 			content: ' '
 			display: block
 			position: absolute
@@ -31,6 +31,7 @@ div.ProjectItem
 			height: 40px
 			width: 1px
 			background-color: #3DB9E7
+			z-index: 200
 		div.ProjectSide
 			position: absolute
 			top: 50%
@@ -68,3 +69,42 @@ div.ProjectItem
 					&:hover
 						img
 							filter: brightness(1.5)
+			div.toolbarHandler
+				position: absolute
+				top: -2px
+				left: 50px
+				z-index: 500
+				
+				div.toolbarContent
+					top: 1px
+					position: absolute
+					left: 13px
+					z-index: 600
+					font-size: 12px
+					width: 148px
+					cursor: pointer
+					z-index: 2
+					padding-top: 5px
+					img.highlight
+						position: absolute
+						top: 5px
+						left: -11.5px
+						z-index: 3
+						display: none
+					div
+						font-size: inherit
+						height: 30px
+						line-height: 30px
+						padding-left: 16px
+						z-index: 4
+						position: relative
+						color: #777
+						&:hover
+							color: #AAA
+							text-decoration: underline
+							&:not(:first-of-type)
+								background-color: #1D1D1D
+							&:first-of-type
+								~ img
+									display: block
+				//background-image: url("../Images/ToolbarContainer.svg")
