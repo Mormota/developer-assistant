@@ -1,0 +1,61 @@
+html *
+  margin: 0
+  box-sizing: border-box
+  font-family: 'Roboto', sans-serif
+  font-weight: 300
+
+div.main-window
+	height: 100vh
+	width: -webkit-fill-available
+	div.header
+		background-color: $header-bgcolor
+		color: $header-color
+		height: $header-height
+		box-shadow: 0 0 3px 3px rgba(0,0,0,.2), 0 0 1px 1px rgba(0,0,0,.6)
+		border-bottom: 1px solid $border-color
+	div.main-container
+		height: $main-height
+		div.side
+			color: $side-color
+			background-color: $side-bgcolor
+			width: 250px
+			float: left
+			height: $main-height
+			border-right: 1px solid $border-color
+			div.project
+				position: relative
+				height: 40px
+				line-height: 40px
+				font-size: 14px
+				color: $project-font-color
+				padding-left: 24px
+				cursor: pointer
+				&:hover
+					background-color: rgba(0,0,0,.1)
+				&:after
+					display: block
+					content: ' '
+					position: absolute
+					width: 7px
+					height: 7px
+					border-radius: 1px
+					background-color: pink
+					left: 12px
+					top: 50%
+					transform: translate(-50%, -50%)
+				&.selected
+					background-color: #1D1D1D
+					color: #aaa
+					&:before
+						display: block
+						content: ' '
+						position: absolute
+						width: 1px
+						height: 40px
+						right: -1px
+						top: 0
+						background-color: #3DB9E7
+		div.main
+			background-color: $main-bgcolor
+			color: $main-color
+			height: $main-height

@@ -8,6 +8,7 @@
 			width: 100vw;
 			height: 100vh;
 			margin: 0;
+			background-color:  #242424
 		}
 		div.loader{
 			display: flex;
@@ -21,17 +22,9 @@
 <body>
 	<div id="root">
 		<div class="loader">
-			<div>Loading</div>
+			Toucan - The developer assistant
 		</div>
 	</div>
-	<script>
-		const { ipcRenderer } = require('electron')
-		// var projects = []
-		// ipcRenderer.send('ready')
-		// ipcRenderer.on('projects', (e, _projects) => {
-		// 	projects = _projects
-		// })
-	</script>
 	<script type="text/javascript" src="./mainWindow/static/index.js"></script>
 </body>
 </html>

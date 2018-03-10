@@ -12,7 +12,7 @@ div.main-window {
     color: #f2f2f2;
     height: 70px;
     box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2), 0 0 1px 1px rgba(0, 0, 0, 0.6);
-    border-bottom: 1px solid #7b7b7b; }
+    border-bottom: 1px solid #3c3c3c; }
   div.main-window div.main-container {
     height: -webkit-calc(100vh - 70px);
     height: calc(100vh - 70px); }
@@ -23,7 +23,7 @@ div.main-window {
       float: left;
       height: -webkit-calc(100vh - 70px);
       height: calc(100vh - 70px);
-      border-right: 1px solid #7b7b7b; }
+      border-right: 1px solid #3c3c3c; }
       div.main-window div.main-container div.side div.project {
         position: relative;
         height: 40px;
@@ -48,7 +48,8 @@ div.main-window {
               -ms-transform: translate(-50%, -50%);
                   transform: translate(-50%, -50%); }
         div.main-window div.main-container div.side div.project.selected {
-          background-color: #1D1D1D; }
+          background-color: #1D1D1D;
+          color: #aaa; }
           div.main-window div.main-container div.side div.project.selected:before {
             display: block;
             content: ' ';
@@ -63,3 +64,90 @@ div.main-window {
       color: #f2f2f2;
       height: -webkit-calc(100vh - 70px);
       height: calc(100vh - 70px); }
+
+body {
+  background-color: #242424; }
+
+div.ProjectItem {
+  height: 40px;
+  line-height: 40px;
+  font-size: 14px;
+  color: #777;
+  cursor: pointer;
+  position: relative;
+  padding-left: 20px;
+  -webkit-transition: 200ms;
+  transition: 200ms; }
+  div.ProjectItem div.status {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    height: 5px;
+    width: 5px;
+    border-radius: 1px;
+    background-color: red; }
+  div.ProjectItem:hover {
+    background-color: #1D1D1D; }
+  div.ProjectItem.current {
+    background-color: #1D1D1D;
+    color: #AAA;
+    cursor: default; }
+    div.ProjectItem.current::after {
+      content: ' ';
+      display: block;
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 40px;
+      width: 1px;
+      background-color: #3DB9E7; }
+    div.ProjectItem.current div.ProjectSide {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      height: 40px;
+      width: 60px;
+      line-height: 40px;
+      -webkit-transform: translateY(-50%);
+          -ms-transform: translateY(-50%);
+              transform: translateY(-50%); }
+      div.ProjectItem.current div.ProjectSide div.webpack {
+        height: 40px;
+        width: 30px;
+        display: inline-block;
+        position: relative; }
+        div.ProjectItem.current div.ProjectSide div.webpack img {
+          position: absolute;
+          height: 20px;
+          top: 50%;
+          left: 50%;
+          -webkit-transform: translate(-50%, -50%);
+              -ms-transform: translate(-50%, -50%);
+                  transform: translate(-50%, -50%);
+          cursor: pointer;
+          -webkit-filter: grayscale(1);
+                  filter: grayscale(1);
+          -webkit-transition: 300ms;
+          transition: 300ms; }
+          div.ProjectItem.current div.ProjectSide div.webpack img:hover {
+            -webkit-filter: grayscale(0);
+                    filter: grayscale(0); }
+        div.ProjectItem.current div.ProjectSide div.webpack div.dots {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          height: 20px;
+          width: 20px;
+          border-radius: 50%;
+          -webkit-transform: translate(-50%, -50%);
+              -ms-transform: translate(-50%, -50%);
+                  transform: translate(-50%, -50%); }
+          div.ProjectItem.current div.ProjectSide div.webpack div.dots img {
+            -webkit-transition: 300ms;
+            transition: 300ms; }
+          div.ProjectItem.current div.ProjectSide div.webpack div.dots:hover img {
+            -webkit-filter: brightness(1.5);
+                    filter: brightness(1.5); }

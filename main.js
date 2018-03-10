@@ -12,6 +12,8 @@ let template = require('./application/menu');
 let traytemplate = require('./application/traymenu');
 let actions = require('./application/actions');
 
+let tray
+
 let mainWindow;
 let addLoaderWindow;
 let willQuitApp = false;
@@ -29,7 +31,7 @@ const updateProjects = (projects, window) => {
 		actions((_projects) => updateProjects(_projects)),
 		projects);
 	const contextMenu = Menu.buildFromTemplate(_traytemplate);
-  let tray = new Tray('./Statics/Files/Images/TrayIcon/TrayIcon.png');
+  tray = new Tray('./Statics/Files/Images/TrayIcon/TrayIcon.png');
   // tray.setToolTip(app.getName())
   tray.setContextMenu(contextMenu);
   tray.setTitle('Toucan');
