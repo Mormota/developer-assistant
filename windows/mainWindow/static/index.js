@@ -23352,15 +23352,43 @@ function (_Component) {
       configurable: true,
       enumerable: true,
       writable: true,
-      value: function value(current) {
-        _this.setState({
-          current: current
+      value: function value(project) {
+        _electron.ipcRenderer.send('project:select', project);
+
+        _electron.ipcRenderer.once('project:select', function (e, response, files) {
+          console.log({
+            response: response,
+            files: files
+          });
+
+          _this.setState({
+            current: project.id,
+            currentProject: {
+              response: response,
+              files: files
+            }
+          });
         });
+      }
+    });
+    Object.defineProperty(_assertThisInitialized(_this), "actions", {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      value: {
+        removeProject: function removeProject(id) {
+          var confirm = confirm('Are u sure about dat?');
+
+          if (confirm === true) {}
+
+          _electron.ipcRenderer.send('project:remove', id);
+        }
       }
     });
     _this.state = {
       projects: [],
-      current: 0
+      current: null,
+      currentProject: undefined
     };
     return _this;
   }
@@ -23370,6 +23398,11 @@ function (_Component) {
     value: function render() {
       var _this2 = this;
 
+      var actions = {
+        removeProject: function removeProject(id) {
+          _electron.ipcRenderer.send('project:remove', id);
+        }
+      };
       var projects = this.state.projects;
 
       _electron.ipcRenderer.on('router', function (e, route) {
@@ -23384,17 +23417,25 @@ function (_Component) {
         className: "main-container"
       }, _react.default.createElement("div", {
         className: "side"
-      }, this.state.projects.map(function (project, i) {
+      }, this.state.projects.map(function (project) {
         return _react.default.createElement(_ProjectItem.default, {
-          number: i,
-          current: _this2.state.current === i,
+          current: _this2.state.current,
           key: project.id,
           project: project,
-          select: _this2.handleSelect
+          select: _this2.handleSelect,
+          actions: actions
         });
       })), _react.default.createElement("div", {
         className: "main"
-      }, "Main")));
+      }, this.state.currentProject && this.state.currentProject.files.map(function (file, i) {
+        return _react.default.createElement("div", {
+          key: i,
+          className: "file"
+        }, _react.default.createElement("img", {
+          src: "../Statics/Files/Images/extensions/file_type_git.png",
+          alt: ""
+        }), file.label, " - ", file.type === 'directory' ? 'Directory' : 'File');
+      }))));
     }
   }, {
     key: "componentDidMount",
@@ -23403,11 +23444,15 @@ function (_Component) {
 
       _electron.ipcRenderer.send('ready');
 
-      _electron.ipcRenderer.on('projects', function (e, projects) {
-        console.log(projects);
+      _electron.ipcRenderer.on('projects', function (e, projects, files, alma, körte) {
+        console.log(projects, files, alma, körte);
 
         _this3.setState({
-          projects: projects
+          projects: projects,
+          current: projects[0].id,
+          currentProject: {
+            files: files
+          }
         });
       });
     }
@@ -23466,7 +23511,7 @@ function (_Component) {
       enumerable: true,
       writable: true,
       value: function value() {
-        return _this.props.select(_this.props.number);
+        return _this.props.current !== _this.props.project.id && _this.props.select(_this.props.project);
       }
     });
     Object.defineProperty(_assertThisInitialized(_this), "handleToolbar", {
@@ -23474,9 +23519,27 @@ function (_Component) {
       enumerable: true,
       writable: true,
       value: function value() {
-        return _this.setState({
-          toolbar: !_this.state.toolbar
+        _this.setState({
+          toolbar: true
         });
+
+        setTimeout(function () {
+          window.addEventListener('click', _this.hideToolbar);
+        }, 100);
+      }
+    });
+    Object.defineProperty(_assertThisInitialized(_this), "hideToolbar", {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      value: function value(e) {
+        _this.setState({
+          toolbar: false
+        });
+
+        setTimeout(function () {
+          return window.removeEventListener('click', _this.hideToolbar);
+        }, 100);
       }
     });
     _this.state = {
@@ -23488,15 +23551,18 @@ function (_Component) {
   _createClass(ProjectItem, [{
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var project = this.props.project;
+      var current = this.props.current == project.id;
       return _react.default.createElement("div", {
-        className: this.props.current === true ? 'ProjectItem current' : 'ProjectItem',
+        className: current === true ? 'ProjectItem current' : 'ProjectItem',
         onClick: this.handleSelect
       }, _react.default.createElement("div", {
         className: "status running"
       }), _react.default.createElement("span", {
         className: "label"
-      }, project.name), this.props.current && _react.default.createElement("div", {
+      }, project.name), current && _react.default.createElement("div", {
         className: "ProjectSide"
       }, _react.default.createElement("span", {
         className: "indicator"
@@ -23514,6 +23580,10 @@ function (_Component) {
       }))), this.state.toolbar && _react.default.createElement("div", {
         className: "toolbarHandler"
       }, _react.default.createElement("img", {
+        style: {
+          position: 'relative',
+          zIndex: 1
+        },
         src: '../Statics/Files/Images/ToolbarContainer.svg',
         alt: ""
       }), _react.default.createElement("div", {
@@ -23523,7 +23593,11 @@ function (_Component) {
         className: "highlight",
         src: '../Statics/Files/Images/ToolbarHighlight.svg',
         alt: ""
-      }), _react.default.createElement("div", null, "Start Node.js Server"), _react.default.createElement("div", null, "Open npm config"), _react.default.createElement("div", null, "Bug tracker"), _react.default.createElement("div", null, "Setup Liveserver"), _react.default.createElement("div", null, "Check for errors"), _react.default.createElement("div", null, "Analize project"), _react.default.createElement("div", null, "Remove project")))));
+      }), _react.default.createElement("div", null, "Start Node.js Server"), _react.default.createElement("div", null, "Open npm config"), _react.default.createElement("div", null, "Bug tracker"), _react.default.createElement("div", null, "Setup Liveserver"), _react.default.createElement("div", null, "Check for errors"), _react.default.createElement("div", null, "Analize project"), _react.default.createElement("div", {
+        onClick: function onClick() {
+          return _this2.props.actions.removeProject(project.id);
+        }
+      }, "Remove project")))));
     }
   }]);
 

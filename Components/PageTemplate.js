@@ -10,21 +10,45 @@ export default class Template extends Component {
 		super(props);
 		this.state = {
 			projects: [],
-			current: 0
+			current: null,
+			currentProject: undefined
 		}
 	}
 
-	handleSelect = (current) => {
-		this.setState({ current })
+	handleSelect = (project) => {
+		ipcRenderer.send('project:select', project)
+		ipcRenderer.once('project:select', (e, response, files) => {
+			console.log({ response, files })
+			this.setState({ current: project.id, currentProject: { response, files }})
+		})
+	}
+
+	actions = {
+		removeProject: (id) => {
+			const confirm = confirm('Are u sure about dat?')
+			if(confirm === true) {
+				
+			}
+
+			ipcRenderer.send('project:remove', (id))
+		}
 	}
 
 	render() {
+
+		const actions = {
+			removeProject: (id) => {
+				ipcRenderer.send('project:remove', id)
+			}
+		}
 
 		const projects = this.state.projects
 
 		ipcRenderer.on('router', (e, route) => {
 			this.props.history.push(route);
 		})
+
+		
 
 		return (
 			<div className="main-window">
@@ -34,16 +58,26 @@ export default class Template extends Component {
 				<div className="main-container">
 					<div className="side">
 						{
-							this.state.projects.map((project, i) => <ProjectItem 
-									number={i} 
-									current={this.state.current === i} 
+							this.state.projects.map(project => <ProjectItem 
+									current={this.state.current} 
 									key={project.id} 
 									project={project}
 									select={this.handleSelect}
+									actions={actions}
 								/>)
 						}
 					</div>
-					<div className="main">Main</div>
+					<div className="main">
+						{
+							this.state.currentProject && this.state.currentProject.files.map((file, i) => (
+								<div 
+								key={i}
+								className='file'>
+								<img src="../Statics/Files/Images/extensions/file_type_git.png" alt=""/>
+								{file.label} - {file.type === 'directory' ? 'Directory' : 'File'}
+								</div>))
+						}
+					</div>
 				</div>
 			</div>
 		);
@@ -51,9 +85,9 @@ export default class Template extends Component {
 
 	componentDidMount() {
 		ipcRenderer.send('ready');
-		ipcRenderer.on('projects', (e, projects) => {
-			console.log(projects)
-			this.setState({ projects });
+		ipcRenderer.on('projects', (e, projects, files, alma, körte) => {
+			console.log(projects, files, alma, körte)
+			this.setState({ projects, current: projects[0].id, currentProject: { files } });
 		});
 	}
 }

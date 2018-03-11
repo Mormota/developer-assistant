@@ -10,17 +10,27 @@ export default class ProjectItem extends Component {
 	};
 
 
-	handleSelect = () => this.props.select(this.props.number);
-	handleToolbar = () => this.setState({ toolbar: !this.state.toolbar });
+	handleSelect = () => this.props.current !== this.props.project.id && this.props.select(this.props.project);
+
+	handleToolbar = () => {
+		this.setState({ toolbar: true })
+		setTimeout(() => {window.addEventListener('click', this.hideToolbar)}, 100)	
+	};
+
+	hideToolbar = (e) => {
+		this.setState({ toolbar: false })
+		setTimeout(() => window.removeEventListener('click',this.hideToolbar), 100)
+	};
 
 	render() {
 		const project = this.props.project
+		let current = this.props.current == project.id
 		return (
-			<div className={this.props.current === true ? 'ProjectItem current' : 'ProjectItem'} onClick={this.handleSelect}>
+			<div className={current === true ? 'ProjectItem current' : 'ProjectItem'} onClick={this.handleSelect}>
 				<div className="status running" />
 				<span className="label">{project.name}</span>
 				{
-					this.props.current && (
+					current && (
 						<div className="ProjectSide">
 							<span className="indicator"/>
 
@@ -34,7 +44,7 @@ export default class ProjectItem extends Component {
 							</div>
 								{
 									this.state.toolbar &&	<div className="toolbarHandler">
-										<img src={'../Statics/Files/Images/ToolbarContainer.svg'} alt=""/>
+										<img style={{position: 'relative', zIndex: 1}} src={'../Statics/Files/Images/ToolbarContainer.svg'} alt=""/>
 										
 
 										<div className="toolbarContent">
@@ -46,7 +56,7 @@ export default class ProjectItem extends Component {
 			                <div>Setup Liveserver</div>
 			                <div>Check for errors</div>
 			                <div>Analize project</div>
-			                <div>Remove project</div>
+			                <div onClick={() => this.props.actions.removeProject(project.id)}>Remove project</div>
 										</div>
 									</div>
 

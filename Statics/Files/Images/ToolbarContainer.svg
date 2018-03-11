@@ -2,8 +2,19 @@
 <svg width="163px" height="254px" viewBox="0 0 163 254" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
     <desc>Created with Sketch.</desc>
+    <filter id="dropshadow" height="130%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2"/> <!-- stdDeviation is how much to blur -->
+      <feOffset dx="0" dy="0" result="offsetblur"/> <!-- how much to offset -->
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.1"/> <!-- slope is the opacity of the shadow -->
+      </feComponentTransfer>
+      <feMerge> 
+        <feMergeNode/> <!-- this contains the offset blurred image -->
+        <feMergeNode in="SourceGraphic"/> <!-- this contains the element that the filter is applied to -->
+      </feMerge>
+    </filter>
     <defs>
-        <polygon id="path-1" points="0.115423818 20.2881531 11.0298283 9.33708813 11.0298283 0.042508381 159.181546 0.042508381 159.181546 252 11.0298283 252 11.0298283 31.3102287"></polygon>
+        <polygon style="filter:url(#dropshadow)" id="path-1" points="0.115423818 20.2881531 11.0298283 9.33708813 11.0298283 0.042508381 159.181546 0.042508381 159.181546 252 11.0298283 252 11.0298283 31.3102287"></polygon>
     </defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="Black-scheme-oppened-toolbar" transform="translate(-241.000000, -97.000000)">

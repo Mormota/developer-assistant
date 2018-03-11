@@ -63,7 +63,12 @@ div.main-window {
       background-color: #242424;
       color: #f2f2f2;
       height: -webkit-calc(100vh - 70px);
-      height: calc(100vh - 70px); }
+      height: calc(100vh - 70px);
+      float: left;
+      width: -webkit-calc(100vw - 250px);
+      width: calc(100vw - 250px);
+      z-index: -2;
+      position: relative; }
 
 body {
   background-color: #242424; }
@@ -154,8 +159,8 @@ div.ProjectItem {
                     filter: brightness(1.5); }
       div.ProjectItem.current div.ProjectSide div.toolbarHandler {
         position: absolute;
-        top: -2px;
-        left: 50px;
+        top: -1px;
+        left: 52px;
         z-index: 500; }
         div.ProjectItem.current div.ProjectSide div.toolbarHandler div.toolbarContent {
           top: 1px;
@@ -188,3 +193,24 @@ div.ProjectItem {
                 background-color: #1D1D1D; }
               div.ProjectItem.current div.ProjectSide div.toolbarHandler div.toolbarContent div:hover:first-of-type ~ img {
                 display: block; }
+
+div.file {
+  font-size: 14px;
+  color: #777;
+  padding-left: 28px;
+  height: 20px;
+  line-height: 20px;
+  width: -webkit-fill-available;
+  width: -moz-available;
+  width: fill-available;
+  cursor: pointer;
+  position: relative; }
+  div.file img {
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    left: 16px; }
+  div.file:hover {
+    color: #AAA; }

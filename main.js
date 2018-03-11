@@ -1,4 +1,5 @@
 const { app, BrowserWindow, Menu, Tray, ipcMain, dialog } = require('electron');
+const ipc = require('ipc');
 const express = require('express')();
 const url = require('url');
 const path = require('path');
@@ -8,6 +9,7 @@ const store = new Store();
 const router = require('./helpers/router');
 
 const debug = require('./application/debug');
+const getAllFiles = require('./application/getAllFiles');
 let template = require('./application/menu');
 let traytemplate = require('./application/traymenu');
 let actions = require('./application/actions');
@@ -35,8 +37,8 @@ const updateProjects = (projects, window) => {
   // tray.setToolTip(app.getName())
   tray.setContextMenu(contextMenu);
   tray.setTitle('Toucan');
-	
-	window.webContents.send('projects', projects);
+	console.log(getAllFiles(projects[0].folder))
+	mainWindow.webContents.send('projects', projects);
 }
 
 const createWindow = (props, window) => {
@@ -75,10 +77,26 @@ app.on('ready', () => {
   });
 
 	ipcMain.on('ready', () => {
-		mainWindow.webContents.send('projects', storedProjects ? storedProjects : []);
+		mainWindow.webContents.send('projects', 
+			storedProjects ? storedProjects : [], 
+			storedProjects.length > 0 && getAllFiles(storedProjects[0].folder));
 	});
 
+	ipcMain.on('project:select', (e, project) => {
+		console.log(project, getAllFiles(project.folder))
+		mainWindow.webContents.send('project:select', project, getAllFiles(project.folder))
+	})
+
+	ipcMain.on('project:remove', (e, id) => {
+		let Projects = store.get('projects') ? store.get('projects') : [];
+		Projects.splice(Projects.findIndex(elem => elem.id === id), 1)
+		store.set('projects', Projects)
+
+		mainWindow.webContents.send('projects', Projects);
+	})
+
 	updateProjects(storedProjects, mainWindow);
+	mainWindow.webContents.send('project:select', storedProjects[0], getAllFiles(storedProjects[0].folder))
 })
 
 app.on('activate', () => {
