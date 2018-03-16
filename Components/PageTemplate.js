@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { ipcRenderer } from 'electron';
+import PropTypes from 'prop-types'
+
 
 import ProjectItem from './Static/ProjectItem'
 
-import Subdir from './Templates/Subdir'
+import Files from './Routes/Files'
 
 import notifier from '../helpers/notifier';
 import Image from './helpers/extension';
@@ -17,6 +19,14 @@ export default class Template extends Component {
 			currentProject: undefined
 		}
 	}
+
+	getChildContext() {
+    return {
+    	projects: this.state.projects,
+    	current: this.state.current,
+    	currentProject: this.state.currentProject
+    };
+  }
 
 	handleSelect = (project) => {
 		ipcRenderer.send('project:select', project)
@@ -71,16 +81,7 @@ export default class Template extends Component {
 						}
 					</div>
 					<div className="main">
-						{
-							this.state.currentProject && this.state.currentProject.files.map((file, i) => {
-									if(file.type === 'file'){
-										return <div key={i}>{file.label}</div>
-									} else if(file.type === 'directory') {
-										return <Subdir label={file.label} files={file.files} />
-									}
-								}
-							)
-						}
+						{this.props.children}
 					</div>
 				</div>
 			</div>
@@ -95,3 +96,9 @@ export default class Template extends Component {
 		});
 	}
 }
+
+Template.childContextTypes = {
+  projects: PropTypes.array,
+  current: PropTypes.string,
+  currentProject: PropTypes.object
+};

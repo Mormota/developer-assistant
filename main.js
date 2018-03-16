@@ -5,7 +5,8 @@ const url = require('url');
 const path = require('path');
 const Store = require('electron-store');
 const store = new Store();
-
+const { spawn } = require('child_process');
+const sizeOf = require('image-size');
 const router = require('./helpers/router');
 
 const debug = require('./application/debug');
@@ -37,7 +38,6 @@ const updateProjects = (projects, window) => {
   // tray.setToolTip(app.getName())
   tray.setContextMenu(contextMenu);
   tray.setTitle('Toucan');
-	console.log(getAllFiles(projects[0].folder))
 	mainWindow.webContents.send('projects', projects);
 }
 
@@ -53,6 +53,8 @@ const createWindow = (props, window) => {
 
 app.on('ready', () => {
 	let storedProjects = store.get('projects') ? store.get('projects') : [];
+
+	const ls = spawn('echo', ['-lh', '/usr']);
 
 	mainWindow = new BrowserWindow({
 		'minHeight': 600,
@@ -93,6 +95,11 @@ app.on('ready', () => {
 		store.set('projects', Projects)
 
 		mainWindow.webContents.send('projects', Projects);
+	})
+
+	ipcMain.on('image:inspect', (e, path) => {
+		console.log(path)
+		console.log(sizeOf(path))
 	})
 
 	updateProjects(storedProjects, mainWindow);

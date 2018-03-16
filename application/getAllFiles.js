@@ -19,7 +19,7 @@ const getAllFiles = (directory, nodeModules, git) => {
 			}
 			response.push({label: file, type: 'directory', files: dirFiles})
 		} else {
-			response.push({label: file, type: 'file'})
+			response.push({label: file, type: 'file', path: `${directory}/${file}`})
 		}
 	})
 	return response

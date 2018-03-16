@@ -27,17 +27,22 @@ div.file
 	font-size: 14px
 	color: #777
 	padding-left: 28px
-	height: 20px
 	line-height: 20px
 	width: fill-available
 	cursor: pointer
 	position: relative
 	img
+		height: 18px
 		position: absolute
-		top: 50%
+		top: 10px
 		transform: translate(-50%, -50%)
 		left: 16px
-	&:hover
-		color: #AAA
+
+	span.label
+		&:hover
+			color: #AAA
+	&.subdir
+		div
+			// padding-left: 10px
 
 // @import './_loader'

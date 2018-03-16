@@ -70,7 +70,9 @@ div.main-window {
       width: -webkit-calc(100vw - 250px);
       width: calc(100vw - 250px);
       z-index: -2;
-      position: relative; }
+      position: relative;
+      overflow-y: auto;
+      padding-bottom: 40px; }
 
 body {
   background-color: #242424; }
@@ -200,7 +202,6 @@ div.file {
   font-size: 14px;
   color: #777;
   padding-left: 28px;
-  height: 20px;
   line-height: 20px;
   width: -webkit-fill-available;
   width: -moz-available;
@@ -208,11 +209,12 @@ div.file {
   cursor: pointer;
   position: relative; }
   div.file img {
+    height: 18px;
     position: absolute;
-    top: 50%;
+    top: 10px;
     -webkit-transform: translate(-50%, -50%);
         -ms-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
     left: 16px; }
-  div.file:hover {
+  div.file span.label:hover {
     color: #AAA; }

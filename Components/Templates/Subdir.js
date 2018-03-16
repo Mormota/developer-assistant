@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import Image from '../helpers/extension';
 
+import File from './File'
 export default class Subdir extends Component {
 	constructor() {
 		super();
@@ -14,20 +16,23 @@ export default class Subdir extends Component {
 		console.log(files)
 
 		return (
-			<div onClick={() => {
-				console.log('collapsed', this.state.collapsed)
-				this.setState({ collapsed: !this.state.collapsed })
-			}}>
-				{label} - Dir
-				{
-					(this.state.collapsed === false && files) && files.map((file, i) => {
-						if(file.type === 'file'){
-							return <div key={i}>{file.label}</div>
-						} else if(file.type === 'directory') {
-							return <Subdir key={i} label={file.label} files={file.files}/>
-						}
-					})
-				}
+			<div className={`file subdir`} >
+				<img src={`../Statics/Files/Images/extensions/file_type_dir.png`} alt=""/>
+				<span onClick={() => {
+					console.log('collapsed', this.state.collapsed)
+					this.setState({ collapsed: !this.state.collapsed })
+				}} className="label">{label}</span>
+				<div style={{position: 'relative'}}>
+					{
+						(this.state.collapsed === false && files) && files.map((file, i) => {
+							if(file.type === 'file'){
+								return <File key={i} file={file} />
+							} else if(file.type === 'directory') {
+								return <Subdir key={i} label={file.label} files={file.files}/>
+							}
+						})
+					}
+				</div>
 			</div>
 		);
 	}
