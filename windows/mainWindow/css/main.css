@@ -15,7 +15,9 @@ div.main-window {
     border-bottom: 1px solid #3c3c3c; }
   div.main-window div.main-container {
     height: -webkit-calc(100vh - 70px);
-    height: calc(100vh - 70px); }
+    height: calc(100vh - 70px);
+    position: relative;
+    z-index: 20; }
     div.main-window div.main-container div.side {
       color: #f2f2f2;
       background-color: #2a2a2a;

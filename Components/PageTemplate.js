@@ -3,7 +3,10 @@ import { ipcRenderer } from 'electron';
 
 import ProjectItem from './Static/ProjectItem'
 
+import Subdir from './Templates/Subdir'
+
 import notifier from '../helpers/notifier';
+import Image from './helpers/extension';
 
 export default class Template extends Component {
 	constructor(props){
@@ -69,13 +72,14 @@ export default class Template extends Component {
 					</div>
 					<div className="main">
 						{
-							this.state.currentProject && this.state.currentProject.files.map((file, i) => (
-								<div 
-								key={i}
-								className='file'>
-								<img src="../Statics/Files/Images/extensions/file_type_git.png" alt=""/>
-								{file.label} - {file.type === 'directory' ? 'Directory' : 'File'}
-								</div>))
+							this.state.currentProject && this.state.currentProject.files.map((file, i) => {
+									if(file.type === 'file'){
+										return <div key={i}>{file.label}</div>
+									} else if(file.type === 'directory') {
+										return <Subdir label={file.label} files={file.files} />
+									}
+								}
+							)
 						}
 					</div>
 				</div>

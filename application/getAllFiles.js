@@ -1,17 +1,20 @@
 const fs = require('fs')
 const readdir = require('readdir-absolute');
 
-const getAllFiles = (directory, nodeModules) => {
+const getAllFiles = (directory, nodeModules, git) => {
 	const showNode = nodeModules ? true : false
+	const showGit = git ? true : false
 	let response = []
 	const files = fs.readdirSync(directory)
 
 	files.forEach(file => {
 		if(fs.lstatSync(directory + '/' + file).isDirectory()){
 			let dirFiles
-			if(file === 'node_modules' && showNode === false) {
+			if((file === 'node_modules' && showNode === false)) {
 				dirFiles = null
-			} else {
+			} else if((file === '.git' && showGit === false)) {
+				dirFiles = null
+			} else{
 				dirFiles = getAllFiles(directory + '/' + file)
 			}
 			response.push({label: file, type: 'directory', files: dirFiles})
